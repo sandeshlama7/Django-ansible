@@ -1,0 +1,31 @@
+- name: Clone git repo
+  git:
+    repo: "https://github.com/yeshwanthlm/django-on-ec2.git"
+    dest: "{{ project_dir }}"
+    force: yes
+
+- name: Install django
+  shell: /root/.pyenv/shims/pip install django
+  args:
+    executable: /bin/bash
+
+- name: Make migrations
+  shell: |
+    export PATH="/root/.pyenv/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    python3 manage.py makemigrations
+    python3 manage.py migrate
+  args:
+    chdir: "{{ project_dir }}"
+    executable: /bin/bash
+
+- name: Run the Django application
+  shell: |
+    export PATH="/root/.pyenv/bin:$PATH"
+    eval "$(pyenv init --path)"
+    eval "$(pyenv init -)"
+    cd /home/ubuntu/django-on-ec2
+    python3 manage.py runserver 0.0.0.0:8000
+  args:
+    executable: /bin/bash
