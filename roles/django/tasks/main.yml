@@ -27,14 +27,13 @@
 - name: Upgrade pip
   shell: "{{ venv_dir }}/bin/pip install --upgrade pip"
 
-
 - name: Install django
   shell: "{{ venv_dir }}/bin/pip install django"
   args:
     executable: /bin/bash
 
 - name: Make migrations
-  shell: "/home/ubuntu/django-on-ec2/virtualenv/bin/python manage.py makemigrations"
+  shell: "{{ venv_dir }}/bin/python manage.py makemigrations"
   args:
     chdir: "{{ project_dir }}"
     executable: /bin/bash

@@ -9,6 +9,4 @@
     ansible_aws_ssm_timeout: 360
 
   roles:
-    # - mysql
-    # - pyenv
     - django
